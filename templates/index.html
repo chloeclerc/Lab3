@@ -1,0 +1,106 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to HandyRides</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      /* Robo Pool rides*/
+      .page--splash {
+        width: min(720px, 88vw);
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero--splash {
+        width: 100%;
+        padding: 56px 48px 48px;
+        border-radius: 28px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      }
+      .hero--splash h1 {
+        font-family: 'Syne', system-ui, sans-serif;
+        font-size: 42px;
+        font-weight: 500;
+        margin: 0 0 8px;
+      }
+      .hero--splash .tagline {
+        font-family: 'Syne', system-ui, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 32px;
+        color: #6b7280;
+      }
+      .hero--splash .splash-btn {
+        font-family: 'Syne', system-ui, sans-serif;
+        display: inline-block;
+        padding: 16px 40px;
+        border: 0;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
+        color: #fff !important;
+        font-weight: 700;
+        font-size: 1.15rem;
+        letter-spacing: 0.03em;
+        text-decoration: none !important;
+        box-shadow: 0 4px 14px rgba(79,70,229,0.4), 0 1px 3px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        margin-top: 8px;
+      }
+      .hero--splash .splash-btn:hover {
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(79,70,229,0.45), 0 2px 6px rgba(0,0,0,0.12);
+      }
+      /* Typewriter effect – all here so it works even if main.css doesn't load */
+      @keyframes splash-typing {
+        from { width: 0; }
+        to { width: 100%; }
+      }
+      @keyframes splash-blink {
+        from, to { border-color: transparent; }
+        50% { border-color: #93ACB5; }
+      }
+      .hero--splash .typewriter-container {
+        position: relative;
+        display: inline-block;
+      }
+      .hero--splash .typewriter-invisible {
+        visibility: hidden;
+        display: inline-block;
+      }
+      .hero--splash .typewriter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 2px solid #93ACB5;
+        width: 0;
+        animation:
+          splash-typing 2.2s steps(19) forwards,
+          splash-blink 0.7s step-end infinite;
+      }
+    </style>
+</head>
+<body>
+    <div class="page page--splash">
+        <div class="hero hero--splash">
+            <h1 class="typewriter-container">
+              <span class="typewriter-invisible" aria-hidden="true">Welcome to HandyRides</span>
+              <span class="typewriter">Welcome to HandyRides</span>
+            </h1>
+            <p class="tagline">Find rides that fit your schedule.</p>
+            <a href="{% url 'rides:index' %}" class="splash-btn">Go to search</a>
+        </div>
+    </div>
+</body>
+</html>

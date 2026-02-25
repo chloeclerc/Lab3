@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap');
+
+:root{
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --radius: 18px;
+    --font: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  }
+  
+  *{ box-sizing: border-box; }
+  
+  body{
+    margin: 0;
+    padding: 0;
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--text);
+    background: radial-gradient(1000px 500px at 20% 0%, #eaf2ff 0%, transparent 60%),
+                radial-gradient(900px 600px at 90% 20%, #fce7f3 0%, transparent 55%),
+                var(--bg);
+  }
+  
+  .page{
+    width: min(920px, 92vw);
+    margin: 32px auto 60px;
+    text-align: center;
+  }
+  .page--splash{
+    width: min(720px, 88vw);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero{
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    padding: 28px 22px 18px;
+  }
+  .hero--splash{
+    width: 100%;
+    padding: 56px 48px 48px;
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  }
+  .hero--splash h1{
+    font-size: 42px;
+  }
+  .hero--splash .tagline{
+    font-size: 1.25rem;
+    margin-bottom: 32px;
+  }
+  
+  .hero h1{
+    margin: 0 0 8px;
+    font-size: 36px;
+    letter-spacing: 0.5px;
+  }
+  .hero .tagline{
+    margin: 0 0 20px;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+  
+  .hero .logo{
+    width: min(520px, 88%);
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+    display: block;
+    margin: 0 auto 18px;
+  }
+
+  .page-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-header__title{
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .page-header__link{
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .page-header__link:hover{
+    color: var(--text);
+  }
+  
+  .form-card{
+    margin: 18px auto 0;
+    width: min(520px, 90%);
+    background: #fbfbff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 16px 8px;
+  }
+  
+  .form-card p{
+    margin: 10px 0;
+    text-align: left;
+  }
+  
+  label{
+    display: inline-block;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  
+  input[type="text"]{
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    background: white;
+  }
+  
+  input[type="text"]:focus{
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 4px rgba(147,197,253,0.35);
+  }
+  
+  button, input[type="submit"]{
+    margin: 8px 0 10px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(99,102,241,0.25);
+  }
+  
+  button:hover, input[type="submit"]:hover{
+    transform: translateY(-1px);
+  }
+
+  a.btn-link{
+    display: inline-block;
+    margin: 8px 0 10px;
+    padding: 14px 32px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(79,70,229,0.4), 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  a.btn-link:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79,70,229,0.45), 0 2px 6px rgba(0,0,0,0.12);
+    color: white;
+  }
+  a.btn-link:active{
+    transform: translateY(0);
+  }
+  .hero--splash .btn-link{
+    padding: 16px 40px;
+    font-size: 1.15rem;
+    margin-top: 8px;
+  }
+  
+  .results{
+    margin-top: 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    padding: 14px;
+    overflow-x: auto;
+  }
+  
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  th, td{
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  
+  thead th{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    background: #f8fafc;
+  }
+  
+  tbody tr:hover{
+    background: #f9fafb;
+  }
+  
+  .badge{
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .badge-yes{
+    background: #dcfce7;
+    color: #166534;
+  }
+  
+  .badge-no{
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  
+  .errorlist{
+    margin: 6px 0 0;
+    padding-left: 18px;
+    color: #b91c1c;
+    font-weight: 600;
+  }
+  
+
+
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0%; }
+    to { width: 100%;  }
+  }
+
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #93ACB5; }
+  }
+
+  .centertable {
+    width: 100%;
+    border: none;
+    border-spacing: 0;
+  }
+  .centertable td, th {
+    padding: 10px;
+  }
+  .centertable tbody tr td a {
+    padding: 2px 5px;
+    display: inline-block;
+  }
+  .howitworks-container {
+    height: 100vh;
+  }
+  .backlink {
+    color: white;
+  }
+  .centertable tr td {
+    text-align: center;
+  }
+  .centertable th {
+    text-align: center;
+    font-size: 20px;
+  }
+
+    .modal-buttons button {
+      min-width: 130px;
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: none;
+      margin-top: 0;
+    }
+    
+    .modal-buttons .secondary {
+      border: 1px solid #4b5563;
+      background: transparent;
+      color: #e5e7eb;
+    }
+    
+    .modal-box .confirm {
+      background: #f9fafb;
+      color: #1b2f5c;
+      border: none;
+      filter: none;
+      box-shadow: none;
+      margin-top: 0;
+    }
+  
+    .price-cell { font-weight: 700; }

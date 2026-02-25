@@ -1,0 +1,21 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <script src="{% static 'main.js' %}?v=3" defer></script>
+    <meta charset="utf-8" />
+    <title>RoboPoolRides</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="hero">
+        <h1>RoboPoolRides</h1>
+        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="RoboPoolRides logo">
+        
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

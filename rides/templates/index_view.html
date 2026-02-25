@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<header class="page-header">
+  <h2 class="page-header__title">Find a ride</h2>
+  <a href="{% url 'home' %}" class="page-header__link">← Back to home</a>
+</header>
+
+<div class="form-card">
+  <form action="{% url 'rides:index' %}" method="get" onsubmit="return checkForm(this);">
+
+    <p>
+      {{ form.city.label_tag }}
+      {{ form.city }}
+      {% if form.city.errors %}{{ form.city.errors }}{% endif %}
+    </p>
+
+    <p>
+      {{ form.state.label_tag }}
+      {{ form.state }}
+      {% if form.state.errors %}{{ form.state.errors }}{% endif %}
+    </p>
+
+    <p style="display:flex; align-items:center; gap:10px; margin-top: 12px;">
+      {{ form.only_drivers }}
+      {{ form.only_drivers.label_tag }}
+      {% if form.only_drivers.errors %}{{ form.only_drivers.errors }}{% endif %}
+    </p>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+{% if inputExists %}
+<div class="results">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>From</th>
+        <th>Destination City</th>
+        <th>State</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Taking passengers</th>
+        <th>Seats</th>
+        <th>Est. $/person</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for person in people %}
+      <tr
+        data-origin="{{ person.origination }}"
+        data-dest="{{ person.destination_city }}"
+        data-seats="{{ person.seats_available }}"
+        data-driver="{{ person.taking_passengers|yesno:'true,false' }}"
+      >
+        <td>{{ person.first_name }}</td>
+        <td>{{ person.origination }}</td>
+        <td>{{ person.destination_city }}</td>
+        <td>{{ person.destination_state }}</td>
+        <td>{{ person.date }}</td>
+        <td>{{ person.time }}</td>
+        <td>
+          <span class="badge badge-{{ person.taking_passengers|yesno:'yes,no' }}">
+            {{ person.taking_passengers|yesno:"Yes,No" }}
+          </span>
+        </td>
+        <td>{{ person.seats_available }}</td>
+        <td class="price-cell">—</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9">No rides found. Try another city or just the state.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}
