@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<header class="page-header">
+  <h2 class="page-header__title">Create ride</h2>
+</header>
+
+<div class="form-card">
+  {% if saved %}
+    <p class="form-success"><strong>Ride saved.</strong> You can add another one below.</p>
+  {% endif %}
+  <form method="post" id="ride-form">
+    {% csrf_token %}
+
+    <p>{{ form.driver_profile.label_tag }}{{ form.driver_profile }}</p>
+
+    <p>{{ form.origin_city.label_tag }}{{ form.origin_city }}</p>
+    <p>{{ form.origin_state.label_tag }}{{ form.origin_state }}</p>
+    <p>{{ form.destination_city.label_tag }}{{ form.destination_city }}</p>
+    <p>{{ form.destination_state.label_tag }}{{ form.destination_state }}</p>
+    <p>{{ form.date.label_tag }}{{ form.date }}</p>
+    <p>{{ form.time.label_tag }}{{ form.time }}</p>
+
+    <p class="checkbox-row">{{ form.taking_passengers }}{{ form.taking_passengers.label_tag }}</p>
+    <p id="seats-row" class="seats-row">{{ form.seats_available.label_tag }}{{ form.seats_available }}</p>
+
+    <p>{{ form.estimated_total_cost.label_tag }}{{ form.estimated_total_cost }}</p>
+    <p>{{ form.notes.label_tag }}{{ form.notes }}</p>
+
+    <input type="submit" value="Create ride">
+  </form>
+</div>
+
+<script>
+(function() {
+  var form = document.getElementById('ride-form');
+  if (!form) return;
+  var taking = form.querySelector('[name="taking_passengers"]');
+  var seatsRow = document.getElementById('seats-row');
+  var seatsInput = form.querySelector('[name="seats_available"]');
+  function toggleSeats() {
+    if (taking && taking.checked) {
+      seatsRow.style.display = '';
+      if (seatsInput) seatsInput.disabled = false;
+    } else {
+      seatsRow.style.display = 'none';
+      if (seatsInput) { seatsInput.value = '0'; seatsInput.disabled = true; }
+    }
+  }
+  if (taking) taking.addEventListener('change', toggleSeats);
+  toggleSeats();
+})();
+</script>
+{% endblock %}

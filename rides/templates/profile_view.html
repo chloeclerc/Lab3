@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+  <h2 class="page-header__title">My profile</h2>
+  <a href="{% url 'rides:profile_edit' %}" class="page-header__link">Edit profile</a>
+</header>
+
+<div class="form-card profile-view">
+  {% if profile.is_verified %}
+    <p class="profile-badge profile-badge--princeton">Princeton</p>
+  {% endif %}
+  <p><strong>Name:</strong> {{ profile.first_name }} {{ profile.last_name }}</p>
+  <p><strong>Email:</strong> {{ profile.email }}</p>
+  <p><strong>Home:</strong> {{ profile.home_city|default:"—" }}{% if profile.home_state %}, {{ profile.home_state }}{% endif %}</p>
+  <p><strong>Prefer quiet ride:</strong> {{ profile.quiet_ride_preference|yesno:"Yes,No" }}</p>
+  <p><strong>Music OK:</strong> {{ profile.music_ok_preference|yesno:"Yes,No" }}</p>
+  {% if profile.notes %}<p><strong>Notes:</strong> {{ profile.notes }}</p>{% endif %}
+  <p><strong>Vehicle type:</strong> {{ profile.vehicle_type|default:"—" }}</p>
+</div>
+{% endblock %}

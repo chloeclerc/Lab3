@@ -4,16 +4,29 @@
   <head>
     <script src="{% static 'main.js' %}?v=3" defer></script>
     <meta charset="utf-8" />
-    <title>RoboPoolRides</title>
+    <title>HandyRides</title>
     <link rel="stylesheet" href="{% static 'main.css' %}">
   </head>
 
   <body>
     <div class="page">
       <div class="hero">
-        <h1>RoboPoolRides</h1>
-        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="RoboPoolRides logo">
-        
+        <h1>HandyRides</h1>
+        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="HandyRides logo">
+        <nav class="nav-auth">
+          <a href="{% url 'home' %}" class="page-header__link">Home</a>
+          <a href="{% url 'rides:index' %}" class="page-header__link">Search rides</a>
+          {% if profile %}
+            <a href="{% url 'rides:profile_view' %}" class="page-header__link">
+              <span class="nav-icon" aria-hidden="true">&#128100;</span> My profile
+            </a>
+          {% else %}
+            <a href="{% url 'rides:create_profile' %}" class="page-header__link">
+              <span class="nav-icon" aria-hidden="true">&#128100;</span> Create profile
+            </a>
+          {% endif %}
+          <a href="{% url 'rides:create_ride' %}" class="page-header__link">Create ride</a>
+        </nav>
         {% block content %}{% endblock %}
       </div>
     </div>

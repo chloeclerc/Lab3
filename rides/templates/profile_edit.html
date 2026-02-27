@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+  <h2 class="page-header__title">Edit profile</h2>
+  <a href="{% url 'rides:profile_view' %}" class="page-header__link">My profile</a>
+</header>
+
+<div class="form-card">
+  {% if profile.is_verified %}
+    <p class="profile-badge profile-badge--princeton">Princeton</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+
+    <h3 class="form-section">Basic info</h3>
+    {{ form.first_name.errors }}
+    <p>{{ form.first_name.label_tag }}{{ form.first_name }}</p>
+    {{ form.last_name.errors }}
+    <p>{{ form.last_name.label_tag }}{{ form.last_name }}</p>
+    {{ form.email.errors }}
+    <p>{{ form.email.label_tag }}{{ form.email }}</p>
+    {{ form.home_city.errors }}
+    <p>{{ form.home_city.label_tag }}{{ form.home_city }}</p>
+    {{ form.home_state.errors }}
+    <p>{{ form.home_state.label_tag }}{{ form.home_state }}</p>
+
+    <h3 class="form-section">Preferences</h3>
+    {{ form.quiet_ride_preference.errors }}
+    <p class="checkbox-row">{{ form.quiet_ride_preference }}{{ form.quiet_ride_preference.label_tag }}</p>
+    {{ form.music_ok_preference.errors }}
+    <p class="checkbox-row">{{ form.music_ok_preference }}{{ form.music_ok_preference.label_tag }}</p>
+    {{ form.notes.errors }}
+    <p>{{ form.notes.label_tag }}{{ form.notes }}</p>
+
+    <h3 class="form-section">Driver details (optional)</h3>
+    <p class="form-hint">Only fill if you plan to offer rides as a driver.</p>
+    {{ form.vehicle_type.errors }}
+    <p>{{ form.vehicle_type.label_tag }}{{ form.vehicle_type }}</p>
+
+    <input type="submit" value="Save profile">
+  </form>
+</div>
+{% endblock %}

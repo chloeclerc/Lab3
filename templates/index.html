@@ -60,6 +60,12 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(79,70,229,0.45), 0 2px 6px rgba(0,0,0,0.12);
       }
+      .hero--splash .splash-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+      }
       /* Typewriter effect – all here so it works even if main.css doesn't load */
       @keyframes splash-typing {
         from { width: 0; }
@@ -99,7 +105,15 @@
               <span class="typewriter">Welcome to HandyRides</span>
             </h1>
             <p class="tagline">Find rides that fit your schedule.</p>
-            <a href="{% url 'rides:index' %}" class="splash-btn">Go to search</a>
+            <div class="splash-actions">
+              <a href="{% url 'rides:index' %}" class="splash-btn">Go to search</a>
+              {% if profile %}
+                <a href="{% url 'rides:profile_view' %}" class="splash-btn">My profile</a>
+              {% else %}
+                <a href="{% url 'rides:create_profile' %}" class="splash-btn">Create profile</a>
+              {% endif %}
+              <a href="{% url 'rides:create_ride' %}" class="splash-btn">Create ride</a>
+            </div>
         </div>
     </div>
 </body>

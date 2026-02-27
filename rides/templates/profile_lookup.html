@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+  <h2 class="page-header__title">Recover profile access</h2>
+</header>
+
+<div class="form-card">
+  <p>Enter the email address associated with your profile to regain access.</p>
+  {% if error %}
+    <p class="form-error">{{ error }}</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <p>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required size="40" placeholder="you@example.com">
+    </p>
+    <input type="submit" value="Recover access">
+  </form>
+</div>
+{% endblock %}

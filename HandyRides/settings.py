@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'rides.context_processors.profile',
             ],
         },
     },
@@ -115,6 +116,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Session: save on every request so profile identity persists reliably
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

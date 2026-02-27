@@ -5,8 +5,16 @@
 
 <header class="page-header">
   <h2 class="page-header__title">Find a ride</h2>
-  <a href="{% url 'home' %}" class="page-header__link">← Back to home</a>
 </header>
+
+<div class="action-links">
+  {% if profile %}
+    <a href="{% url 'rides:profile_view' %}" class="action-links__btn">My profile</a>
+  {% else %}
+    <a href="{% url 'rides:create_profile' %}" class="action-links__btn">Create profile</a>
+  {% endif %}
+  <a href="{% url 'rides:create_ride' %}" class="action-links__btn">Create ride</a>
+</div>
 
 <div class="form-card">
   <form action="{% url 'rides:index' %}" method="get" onsubmit="return checkForm(this);">
@@ -47,34 +55,41 @@
         <th>Taking passengers</th>
         <th>Seats</th>
         <th>Est. $/person</th>
+        <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
-      {% for person in people %}
-      <tr
-        data-origin="{{ person.origination }}"
-        data-dest="{{ person.destination_city }}"
-        data-seats="{{ person.seats_available }}"
-        data-driver="{{ person.taking_passengers|yesno:'true,false' }}"
-      >
-        <td>{{ person.first_name }}</td>
-        <td>{{ person.origination }}</td>
-        <td>{{ person.destination_city }}</td>
-        <td>{{ person.destination_state }}</td>
-        <td>{{ person.date }}</td>
-        <td>{{ person.time }}</td>
+      {% for ride in rides %}
+      <tr>
+        <td>{% if ride.driver_profile %}{{ ride.driver_profile.first_name }} {{ ride.driver_profile.last_name }}{% else %}—{% endif %}</td>
+        <td>{{ ride.origin_city }}, {{ ride.origin_state }}</td>
+        <td>{{ ride.destination_city }}</td>
+        <td>{{ ride.destination_state }}</td>
+        <td>{{ ride.date }}</td>
+        <td>{{ ride.time }}</td>
         <td>
-          <span class="badge badge-{{ person.taking_passengers|yesno:'yes,no' }}">
-            {{ person.taking_passengers|yesno:"Yes,No" }}
+          <span class="badge badge-{{ ride.taking_passengers|yesno:'yes,no' }}">
+            {{ ride.taking_passengers|yesno:"Yes,No" }}
           </span>
         </td>
-        <td>{{ person.seats_available }}</td>
-        <td class="price-cell">—</td>
+        <td>{{ ride.seats_available }}</td>
+        <td class="price-cell">{% if ride.cost_per_person %}${{ ride.cost_per_person|floatformat:2 }}{% else %}—{% endif %}</td>
+        <td>
+          {% if ride.can_join %}
+            <a href="{% url 'rides:join_ride' ride.id %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}">Join</a>
+          {% elif ride.already_joined %}
+            Joined
+          {% elif ride.taking_passengers and ride.seats_left > 0 %}
+            <a href="{% url 'rides:create_profile' %}">Create profile to join</a>
+          {% else %}
+            —
+          {% endif %}
+        </td>
       </tr>
       {% empty %}
       <tr>
-        <td colspan="9">No rides found. Try another city or just the state.</td>
+        <td colspan="10">No rides found. Try another city or just the state.</td>
       </tr>
       {% endfor %}
     </tbody>
