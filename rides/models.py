@@ -56,7 +56,12 @@ class Profile(models.Model):
 
 
 class Ride(models.Model):
-  """Driver offering a ride: per-ride posting only (no passenger constraints)."""
+  """Driver offering a ride or car rental group: per-ride posting only (no passenger constraints)."""
+  RIDE_TYPE_CHOICES = [
+      ("own_car", "I have a car"),
+      ("car_rental_group", "Renting a car together"),
+  ]
+  ride_type = models.CharField(max_length=20, choices=RIDE_TYPE_CHOICES, default="own_car")
   driver_profile = models.ForeignKey(
       Profile, on_delete=models.CASCADE, related_name="rides", blank=True, null=True
   )

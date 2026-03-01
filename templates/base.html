@@ -4,15 +4,15 @@
   <head>
     <script src="{% static 'main.js' %}?v=3" defer></script>
     <meta charset="utf-8" />
-    <title>HandyRides</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <title>Pool Rides</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}?v=5">
   </head>
 
   <body>
     <div class="page">
       <div class="hero">
-        <h1>HandyRides</h1>
-        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="HandyRides logo">
+        <h1>Pool Rides</h1>
+        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="Pool Rides logo">
         <nav class="nav-auth">
           <a href="{% url 'home' %}" class="page-header__link">Home</a>
           <a href="{% url 'rides:index' %}" class="page-header__link">Search rides</a>

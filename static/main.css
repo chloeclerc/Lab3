@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap');
 
 :root{
-    --bg: #f7f8fc;
+    --bg: #f8f7f5;
     --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --border: #e5e7eb;
+    --text: #1a1a1a;
+    --muted: #525252;
+    --border: #e5e4e0;
     --shadow: 0 10px 30px rgba(0,0,0,0.08);
     --radius: 18px;
     --font: 'Syne', ui-sans-serif, system-ui, sans-serif;
+    /* Princeton colors */
+    --princeton-orange: #E77500;
+    --princeton-orange-dark: #c96300;
+    --princeton-black: #1a1a1a;
   }
   
   *{ box-sizing: border-box; }
@@ -19,8 +23,8 @@
     font-family: var(--font);
     font-weight: 500;
     color: var(--text);
-    background: radial-gradient(1000px 500px at 20% 0%, #eaf2ff 0%, transparent 60%),
-                radial-gradient(900px 600px at 90% 20%, #fce7f3 0%, transparent 55%),
+    background: radial-gradient(1000px 500px at 20% 0%, rgba(231,117,0,0.06) 0%, transparent 60%),
+                radial-gradient(900px 600px at 90% 20%, rgba(0,0,0,0.03) 0%, transparent 55%),
                 var(--bg);
   }
   
@@ -41,6 +45,7 @@
   .hero{
     background: var(--card);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--princeton-orange);
     box-shadow: var(--shadow);
     border-radius: var(--radius);
     padding: 28px 22px 18px;
@@ -63,6 +68,7 @@
     margin: 0 0 8px;
     font-size: 36px;
     letter-spacing: 0.5px;
+    color: var(--princeton-black);
   }
   .hero .tagline{
     margin: 0 0 20px;
@@ -88,7 +94,7 @@
     gap: 12px;
     margin: 0 0 20px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid rgba(231,117,0,0.3);
   }
   .page-header__title{
     margin: 0;
@@ -102,7 +108,7 @@
     font-size: 0.95rem;
   }
   .page-header__link:hover{
-    color: var(--text);
+    color: var(--princeton-orange);
   }
 
   .nav-auth{
@@ -121,7 +127,7 @@
   .action-links__btn{
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    background: linear-gradient(90deg, var(--princeton-orange), var(--princeton-orange-dark));
     color: white;
     font-weight: 600;
     text-decoration: none;
@@ -154,8 +160,9 @@
   .form-card{
     margin: 18px auto 0;
     width: min(520px, 90%);
-    background: #fbfbff;
+    background: #fefdfb;
     border: 1px solid var(--border);
+    border-left: 4px solid var(--princeton-orange);
     border-radius: 16px;
     padding: 16px 16px 8px;
   }
@@ -163,6 +170,15 @@
   .form-card p{
     margin: 10px 0;
     text-align: left;
+  }
+  .form-card a, .form-hint a{
+    color: var(--princeton-orange);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .form-card a:hover, .form-hint a:hover{
+    color: var(--princeton-orange-dark);
+    text-decoration: underline;
   }
   .form-section{
     margin: 20px 0 10px;
@@ -192,8 +208,8 @@
     margin-bottom: 12px;
   }
   .profile-badge--princeton{
-    background: #e8e0f0;
-    color: #4a2270;
+    background: rgba(231,117,0,0.15);
+    color: var(--princeton-orange-dark);
   }
   
   label{
@@ -203,7 +219,11 @@
     margin-bottom: 6px;
   }
   
-  input[type="text"]{
+  input[type="checkbox"], input[type="radio"]{
+    accent-color: var(--princeton-orange);
+  }
+
+  input[type="text"], input[type="email"], input[type="number"], select{
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--border);
@@ -213,9 +233,9 @@
     background: white;
   }
   
-  input[type="text"]:focus{
-    border-color: #93c5fd;
-    box-shadow: 0 0 0 4px rgba(147,197,253,0.35);
+  input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, select:focus{
+    border-color: var(--princeton-orange);
+    box-shadow: 0 0 0 4px rgba(231,117,0,0.2);
   }
   
   button, input[type="submit"]{
@@ -223,11 +243,11 @@
     padding: 10px 16px;
     border: 0;
     border-radius: 999px;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    background: linear-gradient(90deg, var(--princeton-orange), var(--princeton-orange-dark));
     color: white;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(99,102,241,0.25);
+    box-shadow: 0 10px 20px rgba(231,117,0,0.3);
   }
   
   button:hover, input[type="submit"]:hover{
@@ -240,18 +260,18 @@
     padding: 14px 32px;
     border: 0;
     border-radius: 999px;
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
+    background: linear-gradient(135deg, var(--princeton-orange) 0%, var(--princeton-orange-dark) 100%);
     color: white;
     font-weight: 700;
     font-size: 1.05rem;
     letter-spacing: 0.03em;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(79,70,229,0.4), 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 14px rgba(231,117,0,0.35), 0 1px 3px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   a.btn-link:hover{
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(79,70,229,0.45), 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 24px rgba(231,117,0,0.4), 0 2px 6px rgba(0,0,0,0.12);
     color: white;
   }
   a.btn-link:active{
@@ -267,6 +287,7 @@
     margin-top: 18px;
     background: var(--card);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--princeton-orange);
     box-shadow: var(--shadow);
     border-radius: var(--radius);
     padding: 14px;
@@ -291,11 +312,21 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--muted);
-    background: #f8fafc;
+    background: rgba(231,117,0,0.06);
   }
   
   tbody tr:hover{
     background: #f9fafb;
+  }
+
+  .results table a{
+    color: var(--princeton-orange);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .results table a:hover{
+    color: var(--princeton-orange-dark);
+    text-decoration: underline;
   }
   
   .badge{
@@ -316,6 +347,11 @@
     color: #991b1b;
   }
   
+  .badge-info{
+    background: rgba(231,117,0,0.15);
+    color: var(--princeton-orange-dark);
+  }
+  
   .errorlist{
     margin: 6px 0 0;
     padding-left: 18px;
@@ -334,7 +370,7 @@
   /* The typewriter cursor effect */
   @keyframes blink-caret {
     from, to { border-color: transparent }
-    50% { border-color: #93ACB5; }
+    50% { border-color: var(--princeton-orange); }
   }
 
   .centertable {
@@ -374,14 +410,14 @@
     }
     
     .modal-buttons .secondary {
-      border: 1px solid #4b5563;
+      border: 1px solid var(--princeton-black);
       background: transparent;
-      color: #e5e7eb;
+      color: var(--princeton-black);
     }
     
     .modal-box .confirm {
-      background: #f9fafb;
-      color: #1b2f5c;
+      background: var(--princeton-orange);
+      color: white;
       border: none;
       filter: none;
       box-shadow: none;

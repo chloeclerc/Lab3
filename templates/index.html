@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to HandyRides</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <title>Welcome to Pool Rides</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -25,19 +25,21 @@
         padding: 56px 48px 48px;
         border-radius: 28px;
         box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        border-top: 4px solid #E77500;
       }
       .hero--splash h1 {
         font-family: 'Syne', system-ui, sans-serif;
         font-size: 42px;
         font-weight: 500;
         margin: 0 0 8px;
+        color: #1a1a1a;
       }
       .hero--splash .tagline {
         font-family: 'Syne', system-ui, sans-serif;
         font-size: 1.25rem;
         font-weight: 500;
         margin-bottom: 32px;
-        color: #6b7280;
+        color: #525252;
       }
       .hero--splash .splash-btn {
         font-family: 'Syne', system-ui, sans-serif;
@@ -45,26 +47,54 @@
         padding: 16px 40px;
         border: 0;
         border-radius: 999px;
-        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a78bfa 100%);
+        background: linear-gradient(135deg, #E77500 0%, #c96300 100%);
         color: #fff !important;
         font-weight: 700;
         font-size: 1.15rem;
         letter-spacing: 0.03em;
         text-decoration: none !important;
-        box-shadow: 0 4px 14px rgba(79,70,229,0.4), 0 1px 3px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 14px rgba(231,117,0,0.35), 0 1px 3px rgba(0,0,0,0.1);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         margin-top: 8px;
       }
       .hero--splash .splash-btn:hover {
         color: #fff !important;
         transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(79,70,229,0.45), 0 2px 6px rgba(0,0,0,0.12);
+        box-shadow: 0 8px 24px rgba(231,117,0,0.4), 0 2px 6px rgba(0,0,0,0.12);
       }
       .hero--splash .splash-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
         margin-top: 8px;
+      }
+      .hero--splash .carshare-card {
+        margin-top: 32px;
+        padding: 20px 24px;
+        background: rgba(231,117,0,0.06);
+        border: 1px solid rgba(231,117,0,0.2);
+        border-radius: 16px;
+        text-align: left;
+      }
+      .hero--splash .carshare-card p {
+        margin: 0 0 12px;
+        font-size: 0.95rem;
+        color: #525252;
+        line-height: 1.5;
+      }
+      .hero--splash .carshare-card a {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #E77500;
+        color: white !important;
+        font-weight: 600;
+        text-decoration: none !important;
+        border-radius: 999px;
+        font-size: 0.95rem;
+      }
+      .hero--splash .carshare-card a:hover {
+        background: #c96300;
+        color: white !important;
       }
       /* Typewriter effect – all here so it works even if main.css doesn't load */
       @keyframes splash-typing {
@@ -73,7 +103,7 @@
       }
       @keyframes splash-blink {
         from, to { border-color: transparent; }
-        50% { border-color: #93ACB5; }
+        50% { border-color: #E77500; }
       }
       .hero--splash .typewriter-container {
         position: relative;
@@ -89,7 +119,7 @@
         top: 0;
         overflow: hidden;
         white-space: nowrap;
-        border-right: 2px solid #93ACB5;
+        border-right: 2px solid #E77500;
         width: 0;
         animation:
           splash-typing 2.2s steps(19) forwards,
@@ -101,8 +131,8 @@
     <div class="page page--splash">
         <div class="hero hero--splash">
             <h1 class="typewriter-container">
-              <span class="typewriter-invisible" aria-hidden="true">Welcome to HandyRides</span>
-              <span class="typewriter">Welcome to HandyRides</span>
+              <span class="typewriter-invisible" aria-hidden="true">Welcome to Pool Rides</span>
+              <span class="typewriter">Welcome to Pool Rides</span>
             </h1>
             <p class="tagline">Find rides that fit your schedule.</p>
             <div class="splash-actions">
@@ -113,6 +143,10 @@
                 <a href="{% url 'rides:create_profile' %}" class="splash-btn">Create profile</a>
               {% endif %}
               <a href="{% url 'rides:create_ride' %}" class="splash-btn">Create ride</a>
+            </div>
+            <div class="carshare-card">
+              <p><strong>Princeton students:</strong> Rent a car for $25/year with Enterprise CarShare. Form a group below and split the cost.</p>
+              <a href="https://www.enterprisecarshare.com/us/en/programs/university/princeton.html" target="_blank" rel="noopener noreferrer">Learn more / Sign up</a>
             </div>
         </div>
     </div>

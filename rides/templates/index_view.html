@@ -46,6 +46,7 @@
   <table>
     <thead>
       <tr>
+        <th>Type</th>
         <th>Name</th>
         <th>From</th>
         <th>Destination City</th>
@@ -53,7 +54,7 @@
         <th>Date</th>
         <th>Time</th>
         <th>Taking passengers</th>
-        <th>Seats</th>
+        <th>Seats left</th>
         <th>Est. $/person</th>
         <th>Action</th>
       </tr>
@@ -62,6 +63,7 @@
     <tbody>
       {% for ride in rides %}
       <tr>
+        <td><span class="badge {% if ride.ride_type == 'car_rental_group' %}badge-yes{% else %}badge-info{% endif %}">{% if ride.ride_type == 'car_rental_group' %}Car rental{% else %}Own car{% endif %}</span></td>
         <td>{% if ride.driver_profile %}{{ ride.driver_profile.first_name }} {{ ride.driver_profile.last_name }}{% else %}—{% endif %}</td>
         <td>{{ ride.origin_city }}, {{ ride.origin_state }}</td>
         <td>{{ ride.destination_city }}</td>
@@ -73,15 +75,19 @@
             {{ ride.taking_passengers|yesno:"Yes,No" }}
           </span>
         </td>
-        <td>{{ ride.seats_available }}</td>
+        <td>{{ ride.seats_left }} / {{ ride.seats_available }}</td>
         <td class="price-cell">{% if ride.cost_per_person %}${{ ride.cost_per_person|floatformat:2 }}{% else %}—{% endif %}</td>
         <td>
-          {% if ride.can_join %}
+          {% if ride.already_joined %}
+            Joined | <a href="{% url 'rides:unjoin_ride' ride.id %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}">Unjoin</a>
+          {% elif ride.is_driver %}
+            <a href="{% url 'rides:ride_edit' ride.id %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}">Edit</a>
+          {% elif ride.can_click_join %}
             <a href="{% url 'rides:join_ride' ride.id %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}">Join</a>
-          {% elif ride.already_joined %}
-            Joined
-          {% elif ride.taking_passengers and ride.seats_left > 0 %}
-            <a href="{% url 'rides:create_profile' %}">Create profile to join</a>
+          {% elif ride.taking_passengers and ride.seats_left == 0 %}
+            Full
+          {% elif not ride.taking_passengers %}
+            Not accepting passengers
           {% else %}
             —
           {% endif %}
@@ -89,7 +95,7 @@
       </tr>
       {% empty %}
       <tr>
-        <td colspan="10">No rides found. Try another city or just the state.</td>
+        <td colspan="11">No rides found. Try another city or just the state.</td>
       </tr>
       {% endfor %}
     </tbody>

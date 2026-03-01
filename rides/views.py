@@ -3,7 +3,7 @@ from django.db.models import Count, Q
 from django.urls import reverse
 
 from .models import Person, Profile, Ride, RidePassenger
-from .forms import ProfileCreateForm, ProfileEditForm, RideCreateForm, RideForm
+from .forms import ProfileCreateForm, ProfileEditForm, RideCreateForm, RideEditForm, RideForm
 
 SESSION_PROFILE_ID = "handyrides_profile_id"
 
@@ -51,12 +51,24 @@ def index(request):
                 profile is not None
                 and RidePassenger.objects.filter(ride=ride, profile=profile).exists()
             )
+            ride.is_driver = (
+                profile is not None
+                and ride.driver_profile_id is not None
+                and profile.id == ride.driver_profile_id
+            )
             ride.can_join = (
                 ride.taking_passengers
                 and ride.seats_left > 0
                 and profile is not None
-                and profile != ride.driver_profile
+                and not ride.is_driver
                 and not ride.already_joined
+            )
+            # Show "Join" when user can click it (has profile) or when no profile (click redirects to create_profile)
+            ride.can_click_join = (
+                ride.taking_passengers
+                and ride.seats_left > 0
+                and not ride.already_joined
+                and not ride.is_driver
             )
 
         context["rides"] = rides
@@ -160,6 +172,46 @@ def join_ride(request, ride_id):
         return redirect("rides:index")
 
     RidePassenger.objects.create(ride=ride, profile=profile)
+    query = request.GET.urlencode()
+    index_url = reverse("rides:index")
+    if query:
+        return redirect(f"{index_url}?{query}")
+    return redirect(index_url)
+
+
+def ride_edit(request, ride_id):
+    """Edit a ride; only the driver can edit."""
+    profile = _get_profile_from_session(request)
+    if not profile:
+        return redirect("rides:create_profile")
+
+    ride = get_object_or_404(Ride, id=ride_id)
+    if ride.driver_profile_id != profile.id:
+        return redirect("rides:index")
+
+    form = RideEditForm(request.POST or None, instance=ride)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        query = request.GET.urlencode()
+        index_url = reverse("rides:index")
+        if query:
+            return redirect(f"{index_url}?{query}")
+        return redirect("rides:index")
+
+    return render(request, "ride_edit.html", {"form": form, "ride": ride})
+
+
+def unjoin_ride(request, ride_id):
+    """Remove the current profile from a ride they have joined."""
+    profile = _get_profile_from_session(request)
+    if not profile:
+        return redirect("rides:create_profile")
+
+    ride = get_object_or_404(Ride, id=ride_id)
+    rp = RidePassenger.objects.filter(ride=ride, profile=profile).first()
+    if rp:
+        rp.delete()
+
     query = request.GET.urlencode()
     index_url = reverse("rides:index")
     if query:

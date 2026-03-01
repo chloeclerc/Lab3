@@ -64,6 +64,7 @@ class RideCreateForm(forms.ModelForm):
     class Meta:
         model = Ride
         fields = [
+            "ride_type",
             "driver_profile",
             "origin_city",
             "origin_state",
@@ -82,6 +83,64 @@ class RideCreateForm(forms.ModelForm):
             "notes": forms.Textarea(attrs={"rows": 2}),
         }
         labels = {
+            "driver_profile": "Link to your profile (optional)",
+            "origin_city": "Origin city",
+            "origin_state": "Origin state (2 letters)",
+            "destination_city": "Destination city",
+            "destination_state": "Destination state (2 letters)",
+            "estimated_total_cost": "Estimated total cost (optional)",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["driver_profile"].queryset = Profile.objects.order_by("email")
+        self.fields["driver_profile"].required = False
+        self.fields["driver_profile"].empty_label = "Optional: select your profile"
+
+    def clean_origin_state(self):
+        state = (self.cleaned_data.get("origin_state") or "").strip()
+        if len(state) != 2:
+            raise forms.ValidationError("Origin state must be exactly 2 letters.")
+        return state.upper()
+
+    def clean_destination_state(self):
+        state = (self.cleaned_data.get("destination_state") or "").strip()
+        if len(state) != 2:
+            raise forms.ValidationError("Destination state must be exactly 2 letters.")
+        return state.upper()
+
+    def clean(self):
+        data = super().clean()
+        if data.get("taking_passengers") is False:
+            data["seats_available"] = 0
+        return data
+
+
+class RideEditForm(forms.ModelForm):
+    """Same fields as create; used for editing existing rides."""
+    class Meta:
+        model = Ride
+        fields = [
+            "ride_type",
+            "driver_profile",
+            "origin_city",
+            "origin_state",
+            "destination_city",
+            "destination_state",
+            "date",
+            "time",
+            "taking_passengers",
+            "seats_available",
+            "estimated_total_cost",
+            "notes",
+        ]
+        widgets = {
+            "date": forms.DateInput(attrs={"type": "date"}),
+            "time": forms.TimeInput(attrs={"type": "time"}),
+            "notes": forms.Textarea(attrs={"rows": 2}),
+        }
+        labels = {
+            "ride_type": "Ride type",
             "driver_profile": "Link to your profile (optional)",
             "origin_city": "Origin city",
             "origin_state": "Origin state (2 letters)",
