@@ -41,6 +41,10 @@
   </form>
 </div>
 
+{% if search_error %}
+<p class="form-error"><strong>Search error:</strong> {{ search_error }}</p>
+{% endif %}
+
 {% if inputExists %}
 <div class="results">
   <table>

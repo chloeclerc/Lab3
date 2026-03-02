@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Count, Q
 from django.urls import reverse
@@ -5,6 +6,7 @@ from django.urls import reverse
 from .models import Person, Profile, Ride, RidePassenger
 from .forms import ProfileCreateForm, ProfileEditForm, RideCreateForm, RideEditForm, RideForm
 
+logger = logging.getLogger(__name__)
 SESSION_PROFILE_ID = "handyrides_profile_id"
 
 
@@ -21,58 +23,63 @@ def index(request):
     form = RideForm(request.GET or None)
     context["form"] = form
     context["rides"] = Ride.objects.none()
+    context["search_error"] = None
 
     if form.is_valid():
-        city = (form.cleaned_data.get("city") or "").strip()
-        state = (form.cleaned_data.get("state") or "").strip()
-        only_drivers = form.cleaned_data.get("only_drivers")
+        try:
+            city = (form.cleaned_data.get("city") or "").strip()
+            state = (form.cleaned_data.get("state") or "").strip()
+            only_drivers = form.cleaned_data.get("only_drivers")
 
-        rides = (
-            Ride.objects.filter(destination_state__iexact=state)
-            .annotate(passenger_count=Count("passengers"))
-        )
-        if city:
-            rides = rides.filter(
-                Q(origin_city__icontains=city) | Q(destination_city__icontains=city)
+            rides = (
+                Ride.objects.filter(destination_state__iexact=state)
+                .annotate(passenger_count=Count("passengers"))
             )
-        if only_drivers:
-            rides = rides.filter(taking_passengers=True)
-        rides = rides.select_related("driver_profile").order_by("date", "time")
+            if city:
+                rides = rides.filter(
+                    Q(origin_city__icontains=city) | Q(destination_city__icontains=city)
+                )
+            if only_drivers:
+                rides = rides.filter(taking_passengers=True)
+            rides = rides.select_related("driver_profile").order_by("date", "time")
 
-        profile = _get_profile_from_session(request)
-        for ride in rides:
-            pc = ride.passenger_count
-            if ride.estimated_total_cost is not None:
-                ride.cost_per_person = ride.estimated_total_cost / (1 + pc)
-            else:
-                ride.cost_per_person = None
-            ride.seats_left = max(0, ride.seats_available - pc)
-            ride.already_joined = (
-                profile is not None
-                and RidePassenger.objects.filter(ride=ride, profile=profile).exists()
-            )
-            ride.is_driver = (
-                profile is not None
-                and ride.driver_profile_id is not None
-                and profile.id == ride.driver_profile_id
-            )
-            ride.can_join = (
-                ride.taking_passengers
-                and ride.seats_left > 0
-                and profile is not None
-                and not ride.is_driver
-                and not ride.already_joined
-            )
-            # Show "Join" when user can click it (has profile) or when no profile (click redirects to create_profile)
-            ride.can_click_join = (
-                ride.taking_passengers
-                and ride.seats_left > 0
-                and not ride.already_joined
-                and not ride.is_driver
-            )
+            profile = _get_profile_from_session(request)
+            for ride in rides:
+                pc = ride.passenger_count
+                if ride.estimated_total_cost is not None:
+                    ride.cost_per_person = ride.estimated_total_cost / (1 + pc)
+                else:
+                    ride.cost_per_person = None
+                ride.seats_left = max(0, ride.seats_available - pc)
+                ride.already_joined = (
+                    profile is not None
+                    and RidePassenger.objects.filter(ride=ride, profile=profile).exists()
+                )
+                ride.is_driver = (
+                    profile is not None
+                    and ride.driver_profile_id is not None
+                    and profile.id == ride.driver_profile_id
+                )
+                ride.can_join = (
+                    ride.taking_passengers
+                    and ride.seats_left > 0
+                    and profile is not None
+                    and not ride.is_driver
+                    and not ride.already_joined
+                )
+                ride.can_click_join = (
+                    ride.taking_passengers
+                    and ride.seats_left > 0
+                    and not ride.already_joined
+                    and not ride.is_driver
+                )
 
-        context["rides"] = rides
-        context["inputExists"] = True
+            context["rides"] = rides
+            context["inputExists"] = True
+        except Exception as e:
+            logger.exception("Search failed: %s", e)
+            context["search_error"] = str(e)
+            context["inputExists"] = True
 
     return render(request, "index_view.html", context)
 
