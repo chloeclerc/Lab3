@@ -157,6 +157,16 @@
     margin-right: 4px;
   }
   
+  .creator-info-header{
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    background: rgba(231,117,0,0.08);
+    border: 1px solid rgba(231,117,0,0.25);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
   .form-card{
     margin: 18px auto 0;
     width: min(520px, 90%);

@@ -48,6 +48,7 @@
       <tr>
         <th>Type</th>
         <th>Name</th>
+        <th>Email</th>
         <th>From</th>
         <th>Destination City</th>
         <th>State</th>
@@ -65,6 +66,7 @@
       <tr>
         <td><span class="badge {% if ride.ride_type == 'car_rental_group' %}badge-yes{% else %}badge-info{% endif %}">{% if ride.ride_type == 'car_rental_group' %}Car rental{% else %}Own car{% endif %}</span></td>
         <td>{% if ride.driver_profile %}{{ ride.driver_profile.first_name }} {{ ride.driver_profile.last_name }}{% else %}—{% endif %}</td>
+        <td>{% if ride.driver_profile %}{{ ride.driver_profile.email }}{% else %}—{% endif %}</td>
         <td>{{ ride.origin_city }}, {{ ride.origin_state }}</td>
         <td>{{ ride.destination_city }}</td>
         <td>{{ ride.destination_state }}</td>
@@ -95,7 +97,7 @@
       </tr>
       {% empty %}
       <tr>
-        <td colspan="11">No rides found. Try another city or just the state.</td>
+        <td colspan="12">No rides found. Try another city or just the state.</td>
       </tr>
       {% endfor %}
     </tbody>

@@ -61,11 +61,11 @@ class ProfileEditForm(forms.ModelForm):
 
 
 class RideCreateForm(forms.ModelForm):
+    """driver_profile is set automatically from session in the view."""
     class Meta:
         model = Ride
         fields = [
             "ride_type",
-            "driver_profile",
             "origin_city",
             "origin_state",
             "destination_city",
@@ -83,19 +83,12 @@ class RideCreateForm(forms.ModelForm):
             "notes": forms.Textarea(attrs={"rows": 2}),
         }
         labels = {
-            "driver_profile": "Link to your profile (optional)",
             "origin_city": "Origin city",
             "origin_state": "Origin state (2 letters)",
             "destination_city": "Destination city",
             "destination_state": "Destination state (2 letters)",
             "estimated_total_cost": "Estimated total cost (optional)",
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["driver_profile"].queryset = Profile.objects.order_by("email")
-        self.fields["driver_profile"].required = False
-        self.fields["driver_profile"].empty_label = "Optional: select your profile"
 
     def clean_origin_state(self):
         state = (self.cleaned_data.get("origin_state") or "").strip()
@@ -117,12 +110,11 @@ class RideCreateForm(forms.ModelForm):
 
 
 class RideEditForm(forms.ModelForm):
-    """Same fields as create; used for editing existing rides."""
+    """Same fields as create; driver_profile is not editable (stays as creator)."""
     class Meta:
         model = Ride
         fields = [
             "ride_type",
-            "driver_profile",
             "origin_city",
             "origin_state",
             "destination_city",
@@ -141,19 +133,12 @@ class RideEditForm(forms.ModelForm):
         }
         labels = {
             "ride_type": "Ride type",
-            "driver_profile": "Link to your profile (optional)",
             "origin_city": "Origin city",
             "origin_state": "Origin state (2 letters)",
             "destination_city": "Destination city",
             "destination_state": "Destination state (2 letters)",
             "estimated_total_cost": "Estimated total cost (optional)",
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["driver_profile"].queryset = Profile.objects.order_by("email")
-        self.fields["driver_profile"].required = False
-        self.fields["driver_profile"].empty_label = "Optional: select your profile"
 
     def clean_origin_state(self):
         state = (self.cleaned_data.get("origin_state") or "").strip()

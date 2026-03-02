@@ -1,0 +1,9 @@
+# Local development (SQLite) - use when psycopg2-binary fails on Python 3.14
+# Run: pip install -r requirements-local.txt
+asgiref==3.11.1
+Django==6.0.2
+dj-database-url==2.1.0
+gunicorn==21.2.0
+pytz==2025.2
+sqlparse==0.5.5
+whitenoise==6.6.0

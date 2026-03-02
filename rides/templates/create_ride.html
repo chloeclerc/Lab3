@@ -6,6 +6,10 @@
   <h2 class="page-header__title">Create ride</h2>
 </header>
 
+<div class="creator-info-header">
+  <strong>Your info:</strong> {{ profile.first_name }} {{ profile.last_name }} ({{ profile.email }})
+</div>
+
 <div class="form-card">
   {% if saved %}
     <p class="form-success"><strong>Ride saved.</strong> You can add another one below.</p>
@@ -15,8 +19,6 @@
 
     <p>{{ form.ride_type.label_tag }}{{ form.ride_type }}</p>
     <p id="carshare-hint" class="form-hint" style="display:none;">Split the cost with your group. Princeton students can use <a href="https://www.enterprisecarshare.com/us/en/programs/university/princeton.html" target="_blank" rel="noopener noreferrer">Enterprise CarShare</a> for $25/year.</p>
-
-    <p>{{ form.driver_profile.label_tag }}{{ form.driver_profile }}</p>
 
     <p>{{ form.origin_city.label_tag }}{{ form.origin_city }}</p>
     <p>{{ form.origin_state.label_tag }}{{ form.origin_state }}</p>

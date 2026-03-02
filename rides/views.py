@@ -134,24 +134,24 @@ def profile_lookup(request):
 
 
 def create_ride(request):
-    form = RideCreateForm(request.POST or None, initial=_ride_initial(request))
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("rides:create_ride_success")
-    return render(request, "create_ride.html", {"form": form, "saved": False})
-
-
-def _ride_initial(request):
-    """Pre-select driver_profile if session has a profile."""
     profile = _get_profile_from_session(request)
-    if profile:
-        return {"driver_profile": profile}
-    return {}
+    if not profile:
+        return redirect("rides:create_profile")
+    form = RideCreateForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        ride = form.save(commit=False)
+        ride.driver_profile = profile
+        ride.save()
+        return redirect("rides:create_ride_success")
+    return render(request, "create_ride.html", {"form": form, "saved": False, "profile": profile})
 
 
 def create_ride_success(request):
+    profile = _get_profile_from_session(request)
+    if not profile:
+        return redirect("rides:create_profile")
     form = RideCreateForm()
-    return render(request, "create_ride.html", {"form": form, "saved": True})
+    return render(request, "create_ride.html", {"form": form, "saved": True, "profile": profile})
 
 
 def join_ride(request, ride_id):
