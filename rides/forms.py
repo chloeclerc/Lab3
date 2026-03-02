@@ -104,7 +104,7 @@ class RideCreateForm(forms.ModelForm):
 
     def clean(self):
         data = super().clean()
-        if data.get("taking_passengers") is False:
+        if data is not None and data.get("taking_passengers") is False:
             data["seats_available"] = 0
         return data
 
@@ -154,6 +154,6 @@ class RideEditForm(forms.ModelForm):
 
     def clean(self):
         data = super().clean()
-        if data.get("taking_passengers") is False:
+        if data is not None and data.get("taking_passengers") is False:
             data["seats_available"] = 0
         return data
