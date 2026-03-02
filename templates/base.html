@@ -12,7 +12,7 @@
     <div class="page">
       <div class="hero">
         <h1>Pool Rides</h1>
-        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="Pool Rides logo">
+        <img class="logo" src="{% static 'logo.jpg' %}?v=2" alt="Pool Rides logo" onerror="this.style.display='none'">
         <nav class="nav-auth">
           <a href="{% url 'home' %}" class="page-header__link">Home</a>
           <a href="{% url 'rides:index' %}" class="page-header__link">Search rides</a>
